@@ -15,6 +15,11 @@ class Config:
             GROQ_API_KEY = st.secrets.get("GROQ_API_KEY")
             TAVILY_API_KEY = st.secrets.get("TAVILY_API_KEY")
             LANGCHAIN_API_KEY = st.secrets.get("LANGCHAIN_API_KEY")
+            
+            # LangSmith strictly looks for these variables in os.environ
+            for key in ["LANGCHAIN_API_KEY", "LANGCHAIN_TRACING_V2", "LANGCHAIN_PROJECT"]:
+                if key in st.secrets:
+                    os.environ[key] = str(st.secrets[key])
         except Exception:
             pass
 
