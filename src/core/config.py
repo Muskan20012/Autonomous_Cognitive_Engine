@@ -8,4 +8,15 @@ class Config:
     TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
     LANGCHAIN_API_KEY = os.getenv("LANGCHAIN_API_KEY")
 
+    # If keys are missing (common on Streamlit Cloud), attempt fallback to st.secrets
+    if not GROQ_API_KEY:
+        try:
+            import streamlit as st
+            GROQ_API_KEY = st.secrets.get("GROQ_API_KEY")
+            TAVILY_API_KEY = st.secrets.get("TAVILY_API_KEY")
+            LANGCHAIN_API_KEY = st.secrets.get("LANGCHAIN_API_KEY")
+        except Exception:
+            pass
+
 config = Config()
+
